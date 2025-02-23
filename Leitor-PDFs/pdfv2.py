@@ -2,7 +2,7 @@ import PyPDF2
 import os
 import re
 
-# Váriavel que define o começo do nome do documento
+# Váriavel que define o começo do nome do documento neymar
 inicioArquivo = "Termo de Equipamento -2025"
 
 # Caminho pasta de arquivos, literalmente é o que define qual o caminho de tudo
