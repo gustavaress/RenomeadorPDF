@@ -20,8 +20,7 @@ def extrair_texto(caminho_arquivo):
         for pagina in leitor_pdf.pages:
             texto += pagina.extract_text()
         return texto
-
-
+    
 # Função extrair nome. Desculpa, mas realmente não entendi nada sobre RegEx... O deepseek fez isso pra mim 
 def extrair_nome(texto):
     # Padrão para encontrar o nome após o e-mail
