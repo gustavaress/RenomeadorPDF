@@ -65,6 +65,5 @@ for arquivo in arquivos:
                 print(f'Nome não encontrado no arquivo: {arquivo}')
 
         except Exception as e:
-
             # Erro caso o try falhe na execução do codigo em algum momento
             print(f"Erro ao processar o arquivo {arquivo}: {e}")
