@@ -2,10 +2,11 @@ import PyPDF2
 import os
 import re
 
-inicioArquivo = "Termo de Equipamento -2025"
+inicioArquivo = "Termo de Equipamento"
+inicioSummary = "Summary"
 
 # Caminho pasta de arquivos
-caminho_pasta = r"C:\Users\killy\Downloads\Termos Onboarding Automate"
+caminho_pasta = r"C:\Users\Administrador\Downloads\Termos Onboarding Automate"
 
 # Função extrair texto
 def extrair_texto(caminho_arquivo):
@@ -15,7 +16,7 @@ def extrair_texto(caminho_arquivo):
         for pagina in leitor_pdf.pages:
             texto += pagina.extract_text()
         return texto
-
+                        
 # Função extrair nome e sobrenome. Desculpa, mas realmente não entendi nada sobre RegEx... O deepseek fez isso pra mim
 def extrair_nome(texto):
     # Padrão para capturar a parte do e-mail antes do @
@@ -25,7 +26,6 @@ def extrair_nome(texto):
         return match.group(1).strip()  # Retorna apenas a parte antes do @
     return None
 
-
 # Função para sanitizar o nome do arquivo
 def sanitizar_nome(nome):
     # Remove caracteres inválidos para nomes de arquivos
@@ -33,10 +33,10 @@ def sanitizar_nome(nome):
     return nome.strip()
 
 # Listar aquivos diretorio.
-arquivos = os.listdir(caminho_pasta)
+arquivosTermos = arquivosSummarys = os.listdir(caminho_pasta)
 
 # Processar arquivos diretorio.
-for arquivo in arquivos:
+for arquivo in arquivosTermos:
     if arquivo.startswith(inicioArquivo):
         caminho_arquivo = os.path.join(caminho_pasta, arquivo)
 
@@ -63,3 +63,16 @@ for arquivo in arquivos:
         except Exception as e:
             # Erro caso o try falhe na execução do codigo em algum momento
             print(f"Erro ao processar o arquivo {arquivo}: {e}")
+
+# for arquivo in arquivosSummarys:
+#     if arquivo.startswith(inicioSummary):
+#         caminho_arquivo = os.path.join(caminho_pasta, arquivo)
+
+#         try:
+#             texto = extrair_texto(caminho_arquivo)
+#             nome = extrair_nome(texto)
+
+#             print(nome)
+        
+#         except Exception as e:
+#             print("Deu ruim...")
