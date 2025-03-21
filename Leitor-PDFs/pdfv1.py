@@ -3,10 +3,10 @@ import os
 import re
 
 # Caminho Documento
-caminho_arquivo_termo = r"C:\Users\killy\Downloads\Termos Onboarding Automate\Termo de Equipamento -2025  (5).pdf"
+caminho_arquivo = r"C:\Users\Administrador\Downloads\Termos Onboarding Automate\Termo de Equipamento -2025 .docx.pdf2025-02-22_00-08-47.pdf"
 
 # Abrir e Ler PDF
-with open(caminho_arquivo_termo,"rb") as arquivo:
+with open(caminho_arquivo,"rb") as arquivo:
     leitor_pdf = PyPDF2.PdfReader(arquivo)
     texto = ""
     for pagina in leitor_pdf.pages:
