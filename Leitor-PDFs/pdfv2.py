@@ -17,13 +17,14 @@ def extrair_texto(caminho_arquivo):
             texto += pagina.extract_text()
         return texto
                         
-# Função extrair nome e sobrenome. Desculpa, mas realmente não entendi nada sobre RegEx... O deepseek fez isso pra mim
+# Função extrair nome e sobrenome.
 def extrair_nome(texto):
     # Padrão para capturar a parte do e-mail antes do @
     padrao_nome = r"([a-zA-Z0-9_.+-]+)@c6bank\.com"
-    match = re.search(padrao_nome, texto, re.IGNORECASE)
-    if match:
-        return match.group(1).strip()  # Retorna apenas a parte antes do @
+    matchs = re.findall(padrao_nome, texto, re.IGNORECASE)
+    for match in matchs:
+        if match.lower() != "gustavo.tavares":
+            return match.strip()
     return None
 
 # Função para sanitizar o nome do arquivo
@@ -64,15 +65,15 @@ for arquivo in arquivosTermos:
             # Erro caso o try falhe na execução do codigo em algum momento
             print(f"Erro ao processar o arquivo {arquivo}: {e}")
 
-# for arquivo in arquivosSummarys:
-#     if arquivo.startswith(inicioSummary):
-#         caminho_arquivo = os.path.join(caminho_pasta, arquivo)
+for arquivo in arquivosSummarys:
+    if arquivo.startswith(inicioSummary):
+        caminho_arquivo = os.path.join(caminho_pasta, arquivo)
 
-#         try:
-#             texto = extrair_texto(caminho_arquivo)
-#             nome = extrair_nome(texto)
+        try:
+            texto = extrair_texto(caminho_arquivo)
+            nome = extrair_nome(texto)
 
-#             print(nome)
-        
-#         except Exception as e:
-#             print("Deu ruim...")
+            print(nome)
+            
+        except Exception as e:
+            print("Deu ruim...")

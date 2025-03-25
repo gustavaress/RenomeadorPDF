@@ -3,10 +3,11 @@ import os
 import re
 
 # Váriavel que define o começo do nome do documento
-inicioArquivo = "Termo de Equipamento -2025"
+inicioArquivo = "Termo de Equipamento"
+inicioSummary = "Summary"
 
 # Caminho pasta de arquivos, literalmente é o que define qual o caminho de tudo
-caminho_pasta = r"C:\Users\killy\Downloads\Termos Onboarding Automate"
+caminho_pasta = r"C:\Users\Administrador\Downloads\Termos Onboarding Automate"
 
 # Função extrair texto
 def extrair_texto(caminho_arquivo):
@@ -21,20 +22,27 @@ def extrair_texto(caminho_arquivo):
             texto += pagina.extract_text()
         return texto
     
-# Função extrair nome. Desculpa, mas realmente não entendi nada sobre RegEx... O deepseek fez isso pra mim 
+# Função extrair nome.
 def extrair_nome(texto):
-    # Padrão para encontrar o nome após o e-mail
+    # Padrão para encontrar o nome após o e-mail sem ser o meu (Gustavo Tavares)
     padrao_nome = r"([a-zA-Z0-9_.+-]+)@c6bank\.com"
-    match = re.search(padrao_nome, texto, re.IGNORECASE)
-    if match:
-        return match.group(1).strip()
+    matchs = re.findall(padrao_nome, texto, re.IGNORECASE)
+    for match in matchs:
+        if match.lower() != "gustavo.tavares":
+            return match.strip()
     return None
 
+# Função para sanitizar o nome do arquivo
+def sanitizar_nome(nome):
+    # Remove caracteres inválidos para nomes de arquivos
+    nome = re.sub(r'[\\/*?:"<>|\n]', '', nome)
+    return nome.strip()
+
 # Listar aquivos diretorio, usando a função listdir (como o nome diz, lista o diretorio). Por fim passo a info de qual diretorio quero listar, que no caso é o caminho_pasta
-arquivos = os.listdir(caminho_pasta)
+arquivosTermos = arquivosSummarys = os.listdir(caminho_pasta)
 
 # Processar arquivos diretorio. O for vai percorrer todos os itens da lista de arquivos, que nos obtivemos no item anterior atravez do os.listdir
-for arquivo in arquivos:
+for arquivo in arquivosTermos:
     # Aqui defino o "if" para iniciar quando o começo do nome do arquivo tiver a variável "inicioArquivo"
     if arquivo.startswith(inicioArquivo):
         # Usamos a função os.path.join para que não tenhamos que digitar /, ja que ela pode variar dependendo do sistema operacional. ela vai juntar o caminho_pasta com o arquivo, algo como C:/CaminhoArquivo/arquivo.pdf. isso vai definir para o python o caminho de cada arquivo dentro daquela pasta, desde que todos iniciem com o nome definido na var inicioArquivo".
@@ -67,3 +75,16 @@ for arquivo in arquivos:
         except Exception as e:
             # Erro caso o try falhe na execução do codigo em algum momento
             print(f"Erro ao processar o arquivo {arquivo}: {e}")
+
+# for arquivo in arquivosSummarys:
+#     if arquivo.startswith(inicioSummary):
+#         caminho_arquivo = os.path.join(caminho_pasta, arquivo)
+
+#         try:
+#             texto = extrair_texto(caminho_arquivo)
+#             nome = extrair_nome(texto)
+
+#             print(nome)
+
+#         except Exception as e:
+#             print("Deu ruim...")
